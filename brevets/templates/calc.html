@@ -111,9 +111,15 @@
             </div>
             <!-- row -->
          </form>
+
+	 <button id="fetch">Update</button>
+	 <button id="insert">Submit</button>
+
          <script type="text/javascript">
             var SCRIPT_ROOT = {{ request.script_root|tojson|safe }} ;
             var TIME_CALC_URL = SCRIPT_ROOT + "/_calc_times";
+            var FETCH_URL = SCRIPT_ROOT + "/fetch_brevet";
+            var INSERT_URL = SCRIPT_ROOT + "/insert_brevet";
 
             // FIX ME!
             // Right now, only the kilometers are passed
@@ -146,6 +152,7 @@
 
             $(document).ready(function(){
              // Do the following when the page is finished loading
+	     // Define events here (such as click, instead of change)
 
                 $('input[name="miles"]').change(
                    function() {

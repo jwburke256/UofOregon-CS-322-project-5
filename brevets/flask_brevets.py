@@ -9,6 +9,7 @@ from flask import request
 import arrow  # Replacement for datetime, based on moment.js
 import acp_times  # Brevet time calculations
 import config
+from mypymongo import brevet_insert, brevet_find
 
 import logging
 
@@ -65,6 +66,9 @@ def _calc_times():
     close_time = acp_times.close_time(km, brevet_dist, start_time).format('YYYY-MM-DDTHH:mm')
     result = {"open": open_time, "close": close_time}
     return flask.jsonify(result=result)
+
+# add two more app routes, one for find and one for insert go here:
+
 
 
 #############
