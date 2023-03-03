@@ -1,10 +1,10 @@
 """
-Nose tests for acp_times.py
+Nose tests for mypymongo.py
 
 Write your tests HERE AND ONLY HERE.
 """
 
-from acp_times import open_time, close_time
+from mypymongo import brevet_insert, brevet_find
 import nose    # Testing framework
 import logging
 logging.basicConfig(format='%(levelname)s:%(message)s',
@@ -12,69 +12,33 @@ logging.basicConfig(format='%(levelname)s:%(message)s',
 log = logging.getLogger(__name__)
 
 def test_brevet1():
-    start_time = arrow.get("2023-02-22 00:00", "YYYY-MM-DD HH:mm")
-    dist = 200
-    checkpoints = {
-        0: (start_time, start_time.shift(hours=1)),
-        50: (start_time.shift(hours=1, minutes=28), start_time.shift(hours=3.5)),
-        100: (start_time.shift(hours=2, minutes=56), start_time.shift(hours=6, minutes=40)),
-        150: (start_time.shift(hours=4, minutes=25), start_time.shift(hours=10)),
-        200: (start_time.shift(hours=5, minutes=53), start_time.shift(hours=13.5)), 
-            }
-    check_brevets(checkpoints, dist, start_time)
+    brevet_dist_km =  "200"
+    begin_date = "2021-01-01T00:00"
+    items = [
+        {"close": "2021-01-01T03:30", "km": "50", "location": "a", "miles": "31.068550", "open": "2021-01-01T01:28"},
+        {"close": "2021-01-01T06:40", "km": "100", "location": "b", "miles": "62.137100", "open": "2021-01-01T02:56"},
+        {"close": "2021-01-01T10:00", "km": "150", "location": "c", "miles": "93.205650", "open": "2021-01-01T04:25"},
+        {"close": "2021-01-01T13:30", "km": "200", "location": "d", "miles": "124.274200", "open": "2021-01-01T05:53"},
+        ]
+    brevet_insert(brevet_dist_km, begin_date, items)
+    rtn_brevet_dist_km, rtn_begin_date, rtn_items = brevet_find()
+    assert rtn_brevet_dist_km == brevet_dist_km
+    assert rtn_begin_date == rtn_begin_date
+    assert rtn_items == items
 
 def test_brevet2():
-    start_time = arrow.get("2023-02-22 00:00", "YYYY-MM-DD HH:mm")
-    dist = 200
-    checkpoints = {
-        0: (start_time, start_time.shift(hours=1)),
-        60: (start_time.shift(hours=1, minutes=46), start_time.shift(hours=4)),
-        120: (start_time.shift(hours=3, minutes=32), start_time.shift(hours=8)),
-        175: (start_time.shift(hours=5, minutes=9), start_time.shift(hours=11, minutes=40)),
-        205: (start_time.shift(hours=5, minutes=53), start_time.shift(hours=13.5)), 
-            }
-    check_brevets(checkpoints, dist, start_time)
-
-def test_brevet3():
-    start_time = arrow.get("2023-02-22 00:00", "YYYY-MM-DD HH:mm")
-    dist = 400
-    checkpoints = {
-        0: (start_time, start_time.shift(hours=1)),
-        50: (start_time.shift(hours=1, minutes=28), start_time.shift(hours=3.5)),
-        100: (start_time.shift(hours=2, minutes=56), start_time.shift(hours=6, minutes=40)),
-        150: (start_time.shift(hours=4, minutes=25), start_time.shift(hours=10)),
-        200: (start_time.shift(hours=5, minutes=53), start_time.shift(hours=13, minutes=20)),
-        250: (start_time.shift(hours=7, minutes=27), start_time.shift(hours=16, minutes=40)),
-        300: (start_time.shift(hours=9, minutes=1), start_time.shift(hours=20)),
-        350: (start_time.shift(hours=10, minutes=34), start_time.shift(hours=23, minutes=20)),
-        400: (start_time.shift(hours=12, minutes=8), start_time.shift(days=1, hours=3)),
-            }
-    check_brevets(checkpoints, dist, start_time)
-
-def test_brevet4():
-    start_time = arrow.get("2023-02-22 00:00", "YYYY-MM-DD HH:mm")
-    dist = 1000
-    checkpoints = {
-        0: (start_time, start_time.shift(hours=1)),
-        100: (start_time.shift(hours=2, minutes=56), start_time.shift(hours=6, minutes=40)),
-        500: (start_time.shift(hours=15, minutes=28), start_time.shift(days=1, hours=9, minutes=20)),
-        700: (start_time.shift(hours=22, minutes=22), start_time.shift(days=2, minutes=45)), 
-        999: (start_time.shift(days=1, hours=9, minutes=3), start_time.shift(days=3, hours=2, minutes=55)), 
-        1000: (start_time.shift(days=1, hours=9, minutes=5), start_time.shift(days=3, hours=3)), 
-            }
-    check_brevets(checkpoints, dist, start_time)
-
-def test_brevet5():
-    start_time = arrow.get("2023-02-22 00:00", "YYYY-MM-DD HH:mm")
-    dist = 200
-    checkpoints = {
-        0: (start_time, start_time.shift(hours=1)),
-        10: (start_time.shift(minutes=18), start_time.shift(hours=1, minutes=30)),
-        20: (start_time.shift(minutes=35), start_time.shift(hours=2)),
-        50: (start_time.shift(hours=1, minutes=28), start_time.shift(hours=3, minutes=30)),
-        61: (start_time.shift(hours=1, minutes=48), start_time.shift(hours=4, minutes=4)),
-        200: (start_time.shift(hours=5, minutes=53), start_time.shift(hours=13.5)), 
-            }
-    check_brevets(checkpoints, dist, start_time)
+    #test empty location brevets
+    brevet_dist_km =  "300"
+    begin_date = "2021-01-01T00:00"
+    items = [
+        {"close": "2021-01-01T06:40", "km": "100", "location": "", "miles": "62.137100", "open": "2021-01-01T02:56"},
+        {"close": "2021-01-01T13:20", "km": "200", "location": "", "miles": "124.274200", "open": "2021-01-01T05:53"},
+        {"close": "2021-01-01T20:00", "km": "300", "location": "", "miles": "186.411300", "open": "2021-01-01T09:00"},
+        ]
+    brevet_insert(brevet_dist_km, begin_date, items)
+    rtn_brevet_dist_km, rtn_begin_date, rtn_items = brevet_find()
+    assert rtn_brevet_dist_km == brevet_dist_km
+    assert rtn_begin_date == rtn_begin_date
+    assert rtn_items == items
 
 
